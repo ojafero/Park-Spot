@@ -9,9 +9,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>  
 	<script src="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
 	<link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet"/>
+    <script type="text/javascript" src="APIKey.js"></script> 
 	<script>
 		$(document).ready(function(){
-			mapboxgl.accessToken = 'ADDYourID';
+			mapboxgl.accessToken = MapBoxKey;
 			var map = new mapboxgl.Map({
 			container: 'map',
 			style: 'mapbox://styles/mapbox/streets-v11'
@@ -36,7 +37,7 @@
 	    	    type: "GET",
 	    	    data: {
 	    	      "$limit" : 10,
-	    	      "$$app_token" : "ADDYOURID"
+	    	      "$$app_token" : MeterKey
 	    	    }
 	    	}).done(function(data) {
 	    	  console.log("Retrieved " + data.length + " records from the dataset!");
@@ -47,7 +48,7 @@
 					type: "GET",
 					data: {
 					"$limit" : 10,
-					"$$app_token" : "ADDYOURID"
+					"$$app_token" : MeterStatusKey
 					}
 				}).done(function(data) {
 				console.log(data);
