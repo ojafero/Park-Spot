@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>  
+	<script src="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
+	<link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet"/>
+	<script>
+		$(document).ready(function(){
+			mapboxgl.accessToken = 'ADDYourID';
+			var map = new mapboxgl.Map({
+			container: 'map',
+			style: 'mapbox://styles/mapbox/streets-v11'
+		});
+
+		geocodingClient.forwardGeocode({
+			query: 'Paris, France',
+			limit: 2
+			})
+			.send()
+			.then(response => {
+				const match = response.body;
+			});
+	});
+	</script>
+    <title>Parking Nearby</title>
+      
+      <script>
+	    function getMeterStatus() {
+	    	$.ajax({
+	    	    url: "https://data.lacity.org/resource/s49e-q6j2.json?$where=within_circle(latlng, 34.0522, -118.24, 100)",
+	    	    type: "GET",
+	    	    data: {
+	    	      "$limit" : 10,
+	    	      "$$app_token" : "ADDYOURID"
+	    	    }
+	    	}).done(function(data) {
+	    	  console.log("Retrieved " + data.length + " records from the dataset!");
+			  console.log(data);
+	    	  console.log(data);
+			$.ajax({
+					url: "https://data.lacity.org/resource/e7h6-4a3e.json?spaceid=CC17",
+					type: "GET",
+					data: {
+					"$limit" : 10,
+					"$$app_token" : "ADDYOURID"
+					}
+				}).done(function(data) {
+				console.log(data);
+				});
+	    	});
+		}
+    </script>
+</head>
+<body onload = "getMeterStatus();">
+	<form action="/action_page.php" method="get" onsubmit="return false;">
+		<input type="text" id="mapTextBox"><br>
+	  </form>
+	  <div id="map" style="width: 400px; height: 300px;"></div>
+</body>
+</html>
