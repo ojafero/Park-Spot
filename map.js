@@ -13,28 +13,30 @@ async function getMeterStatus(latitude, longitude) {
 
 function addSearchBar(){
     var map;
-		$(document).ready(function(){
-			mapboxgl.accessToken = MapBoxKey;
-			map = new mapboxgl.Map({
-			container: 'map',
-			style: 'mapbox://styles/mapbox/streets-v11'
-		    });
-
-        var geocoder = new MapboxGeocoder({ // Initialize the geocoder
-            accessToken: mapboxgl.accessToken, // Set the access token
-            mapboxgl: mapboxgl, // Set the mapbox-gl instance
+    //$(document).ready(function(){
+        mapboxgl.accessToken = MapBoxKey;
+        map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [LosAngelesLong,LosAngelesLat],
+        zoom: 8
         });
 
-        // Add the geocoder to the map
-        map.addControl(geocoder);
-        geocoder.on('result', function (e) {
-            console.log("Geocoder fired");
-            console.log("Geocoder coordinates"+e.result.geometry.coordinates+"\n");
-            console.log(e.result.geometry);
-            getMeterStatus(e.result.geometry.coordinates[1],e.result.geometry.coordinates[0]);
-        });
+    var geocoder = new MapboxGeocoder({ // Initialize the geocoder
+        accessToken: mapboxgl.accessToken, // Set the access token
+        mapboxgl: mapboxgl, // Set the mapbox-gl instance
+    });
 
-	});
+    // Add the geocoder to the map
+    map.addControl(geocoder);
+    geocoder.on('result', function (e) {
+        var marker2 = new mapboxgl.Marker({ color: 'red', rotation: 45 })
+        .setLngLat([e.result.geometry.coordinates[0], e.result.geometry.coordinates[1]])
+        .addTo(map);
+        getMeterStatus(e.result.geometry.coordinates[1],e.result.geometry.coordinates[0]);
+    });
+
+//});
     
 
 }
