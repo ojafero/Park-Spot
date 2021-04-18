@@ -8,6 +8,12 @@ async function getMeterStatus(latitude, longitude) {
     if(!vacantParkingMeterList || vacantParkingMeterList.length == 0) console.log("Unfortunately no meter spots are free at the moment.")
     else {
         console.log("Found a vacant spot-Finally")
+
+        //remove markers from last search
+        if(markersList.length>0){
+            removeMarkers();
+            markersList = new Array();
+        }
         addMarkers(vacantParkingMeterList);
     }  
 }
@@ -59,6 +65,13 @@ function addMarkers(vacantParkingMeterList){
             }).setLngLat([vacantParkingMeterList[i].latlng.longitude, vacantParkingMeterList[i].latlng.latitude])
             .addTo(map);
         }
+        markersList.push(marker);
+}
+
+function removeMarkers(){
+    for (var i=0; i<markersList.length; i++){
+        markersList[i].remove();
+    }
 }
 
 
