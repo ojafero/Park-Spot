@@ -11,6 +11,7 @@
 	<link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet"/>
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
 <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" type="text/css" />
+    <script src="https://unpkg.com/@turf/turf@6.3.0/turf.min.js"></script>
     <script type="text/javascript" src="APIKey.js"></script> 
     <script type="text/javascript" src="constants.js"></script> 
     <script type="text/javascript" src="parkingMeter.js"></script> 
@@ -23,6 +24,11 @@
             setupMap();
             fetchUserLocation();
             console.log("start fetching directions\n");
+            var marker = new mapboxgl.Marker({
+            color: "#FF0000",
+            }).setLngLat([userCurrentLong, userCurrentLat])
+            .setPopup(new mapboxgl.Popup().setHTML("<h1>You are currently Here!</h1>")) // add popup
+            .addTo(map);
             //fetchDirections("-117.17282","32.71204","-117.17288","32.71225");
         };
         

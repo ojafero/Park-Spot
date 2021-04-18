@@ -17,9 +17,25 @@ async function getMeterStatus(latitude, longitude) {
 
         //ensure user gave permission to access cordinates
         if(userCurrentLat !=0 && userCurrentLong !=0) {
+            addDistance(vacantParkingMeterList, longitude, latitude)
+            vacantParkingMeterList.sort((a, b) => {
+                return a.distance - b.distance;
+            });
             addLinesToAllPoints(vacantParkingMeterList);
+            console.log("vacantListWithDistance");
+            console.log(vacantParkingMeterList);
         }
     }  
+}
+
+function addDistance(vacantMeterList,destinationLongitude, destinationLatitude){
+    for (var i=0; i<vacantMeterList.length; i++){
+        var from = turf.point([destinationLongitude, destinationLatitude]);
+        var to = turf.point([vacantMeterList[i].latlng.longitude, vacantMeterList[i].latlng.latitude]);
+        var options = {units: 'miles'};
+        var distance = turf.distance(from, to,options);
+        vacantMeterList[i].distance = distance;
+    }
 }
 
 function initializeMap(){
@@ -54,6 +70,16 @@ function setupMap(){
     initializeMap();
     addSearchBar();
     addZoomToMap();
+    addUserLocationMarker();
+
+}
+
+function addUserLocationMarker(){
+    var marker = new mapboxgl.Marker({
+        color: "#FF0000",
+        }).setLngLat([userCurrentLong, userCurrentLat])
+        .setPopup(new mapboxgl.Popup().setHTML("<h5>You are currently Here!</h5>")) // add popup
+        .addTo(map);
 }
 
 function fetchUserLocation(){
