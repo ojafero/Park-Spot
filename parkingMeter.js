@@ -30,7 +30,7 @@ class ParkingMeterRepository {
 
     async fetchVacantMeters(latitude, longitude){
         var found = false;
-        var radiusLength = 1000;
+        var radiusLength = 300;
         var meterStatusList = await this.fetchMeterStatus();
         var vacantMetersList = new Array();
         while(!found && radiusLength<=12000){
@@ -40,7 +40,7 @@ class ParkingMeterRepository {
             console.log(meterList);
             console.log("FetechMeterStatus");
             console.log(meterStatusList); */
-            radiusLength = radiusLength+1000;
+            radiusLength = radiusLength+300;
             if(!meterList || meterList.length == 0) {
                 console.log("couldn't find");
             }

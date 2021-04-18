@@ -115,7 +115,8 @@ function addRoute(coords) {
     if (map.getSource('route')) {
       map.removeLayer('route')
       map.removeSource('route')
-    } else { // Add a new layer to the map **/
+    } 
+     // Add a new layer to the map **/
       map.addLayer({
         "id": "route",
         "type": "line",
@@ -137,7 +138,7 @@ function addRoute(coords) {
           "line-opacity": 1
         }
       });
-    };
+
   }
 
 
