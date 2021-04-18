@@ -13,76 +13,11 @@
 <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" type="text/css" />
     <script type="text/javascript" src="APIKey.js"></script> 
     <script type="text/javascript" src="constants.js"></script> 
-	<script>
-        var map;
-		$(document).ready(function(){
-			mapboxgl.accessToken = MapBoxKey;
-			map = new mapboxgl.Map({
-			container: 'map',
-			style: 'mapbox://styles/mapbox/streets-v11'
-		});
-
-	});
-	</script>
+    <script type="text/javascript" src="parkingMeter.js"></script> 
+    <script type="text/javascript" src="map.js"></script> 
     <title>Parking Nearby</title>
-      
-      <script>
-        var result;
-	    function getMeterStatus() {
-	    	$.ajax({
-	    	    url: "https://data.lacity.org/resource/s49e-q6j2.json?$where=within_circle(latlng, 34.0522, -118.24, 100)",
-	    	    type: "GET",
-	    	    data: {
-	    	      "$limit" : 10,
-	    	      "$$app_token" : MeterKey
-	    	    }
-	    	}).done(function(data) {
-	    	  console.log("Retrieved " + data.length + " records from the dataset!");
-			  console.log(data);
-	    	  console.log(data);
-			$.ajax({
-					url: "https://data.lacity.org/resource/e7h6-4a3e.json?spaceid=CC17",
-					type: "GET",
-					data: {
-					"$limit" : 10,
-					"$$app_token" : MeterStatusKey
-					}
-				}).done(function(data) {
-				console.log(data);
-				});
-	    	});
-
-        addSearchBar()
-            
-		}
-
-        function addSearchBar(){
-            var geocoder = new MapboxGeocoder({ // Initialize the geocoder
-                    accessToken: mapboxgl.accessToken, // Set the access token
-                    mapboxgl: mapboxgl, // Set the mapbox-gl instance
-            });
-            // Add the geocoder to the map
-            map.addControl(geocoder);
-
-
-        geocoder.on('result', function (e) {
-            console.log("Geocoder fired");
-            //result = e;
-            console.log("Geocoder coordinates"+e.result.geometry.coordinates);
-        });
-
-        }
-
-        function run()
-        {
-            console.log("Geocoder fired");
-            console.log(geocoder);
-        }
-
-       
-    </script>
 </head>
-<body onload = "getMeterStatus();">
+<body onload = "addSearchBar();">
 	<form action="test" method="get" onsubmit="return false;">
 		<input type="text" id="mapTextBox"><br>
 	  </form>
