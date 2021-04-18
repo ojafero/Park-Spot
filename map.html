@@ -14,13 +14,18 @@
     <script type="text/javascript" src="APIKey.js"></script> 
     <script type="text/javascript" src="constants.js"></script> 
     <script type="text/javascript" src="parkingMeter.js"></script> 
-    <script defer type="text/javascript" src="map.js"></script> 
+    <script type="text/javascript" src="map.js"></script> 
     <title>Parking Nearby</title>
+    <script>
+        var map;
+        var geocoder;
+        window.onload = function() {
+            setupMap();
+        };
+        
+    </script>
 </head>
-<body onload = "addSearchBar();">
-	<form action="test" method="get" onsubmit="return false;">
-		<input type="text" id="mapTextBox"><br>
-	  </form>
+<body>
 	  <div id="map" style="width: 400px; height: 300px;"></div>
 </body>
 </html>
