@@ -54,7 +54,9 @@ function setupMap(){
 
 function fetchUserLocation(){
     if(navigator.geolocation) navigator.geolocation.getCurrentPosition(function(result){
-        console.log(result);
+        userCurrentLat = result.coords.latitude;
+        userCurrentLong = result.coords.longitude;
+        console.log("user currentLat: "+userCurrentLat+"\n");
     });
 }
 
@@ -73,6 +75,57 @@ function removeMarkers(){
         markersList[i].remove();
     }
 }
+
+function fetchDirections(startLongitude, startLatitude,endLongitude, endLatitude){
+
+    https://api.mapbox.com/matching/v5/mapbox/driving/-117.17282,32.71204;-117.17288,32.71225?steps=true&radiuses=25;25&access_token=YOUR_MAPBOX_ACCESS_TOKEN
+    var query = 'https://api.mapbox.com/matching/v5/mapbox/driving/' + startLongitude+','+startLatitude+';'+endLongitude+','+endLatitude+ '?geometries=geojson&access_token=' + mapboxgl.accessToken;
+    //var query = "https://api.mapbox.com/matching/v5/mapbox/driving/-117.17282,32.71204;-117.17288,32.71225?steps=true&radiuses=25;25&access_token="+ mapboxgl.accessToken;
+    //fetchDirections("-117.17282","32.71204","-117.17288","32.71225");
+    $.ajax({
+      method: 'GET',
+      url: query
+    }).done(function(data) {
+      // Get the coordinates from the response
+      console.log("Data from fetch");
+      console.log(data);
+      var coords = data.matchings[0].geometry;
+      map.on('load',function(){
+        addRoute(coords);
+      });
+    });
+}
+
+function addRoute(coords) {
+    // If a route is already loaded, remove it
+    console.log("add route");
+    if (map.getSource('route')) {
+      map.removeLayer('route')
+      map.removeSource('route')
+    } else { // Add a new layer to the map
+      map.addLayer({
+        "id": "route",
+        "type": "line",
+        "source": {
+          "type": "geojson",
+          "data": {
+            "type": "Feature",
+            "properties": {},
+            "geometry": coords
+          }
+        },
+        "layout": {
+          "line-join": "round",
+          "line-cap": "round"
+        },
+        "paint": {
+          "line-color": "#03AA46",
+          "line-width": 8,
+          "line-opacity": 0.8
+        }
+      });
+    };
+  }
 
 
 

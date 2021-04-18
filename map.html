@@ -15,13 +15,15 @@
     <script type="text/javascript" src="constants.js"></script> 
     <script type="text/javascript" src="parkingMeter.js"></script> 
     <script type="text/javascript" src="map.js"></script> 
-    <title>Parking Nearby</title>
+    <title>Parking Spot</title>
     <script>
         var map;
         var geocoder;
         window.onload = function() {
             setupMap();
             fetchUserLocation();
+            console.log("start fetching directions\n");
+            fetchDirections("-117.17282","32.71204","-117.17288","32.71225");
         };
         
     </script>
