@@ -8,13 +8,17 @@ async function getMeterStatus(latitude, longitude) {
     if(!vacantParkingMeterList || vacantParkingMeterList.length == 0) console.log("Unfortunately no meter spots are free at the moment.")
     else {
         console.log("Found a vacant spot-Finally")
-
         //remove markers from last search
         if(markersList.length>0){
             removeMarkers();
             markersList = new Array();
         }
         addMarkers(vacantParkingMeterList);
+
+        //ensure user gave permission to access cordinates
+        if(userCurrentLat !=0 && userCurrentLong !=0) {
+            addLinesToAllPoints(vacantParkingMeterList);
+        }
     }  
 }
 
@@ -23,7 +27,7 @@ function initializeMap(){
                 map = new mapboxgl.Map({
                 container: 'map',
                 style: 'mapbox://styles/mapbox/streets-v11',
-                center: [LosAngelesLong,LosAngelesLat],
+                center: [userCurrentLong,userCurrentLat],
                 zoom: 13
     });
 }
@@ -57,6 +61,7 @@ function fetchUserLocation(){
         userCurrentLat = result.coords.latitude;
         userCurrentLong = result.coords.longitude;
         console.log("user currentLat: "+userCurrentLat+"\n");
+        setupMap();
     });
 }
 
@@ -76,6 +81,14 @@ function removeMarkers(){
     }
 }
 
+function addLinesToAllPoints(vacantParkingList){
+    for(var i=0; i<vacantParkingList.length; i++){
+        fetchDirections(userCurrentLong,userCurrentLat,vacantParkingList[i].latlng.longitude,vacantParkingList[i].latlng.latitude);
+        break;
+    }
+    
+}
+
 function fetchDirections(startLongitude, startLatitude,endLongitude, endLatitude){
 
     https://api.mapbox.com/matching/v5/mapbox/driving/-117.17282,32.71204;-117.17288,32.71225?steps=true&radiuses=25;25&access_token=YOUR_MAPBOX_ACCESS_TOKEN
@@ -90,19 +103,19 @@ function fetchDirections(startLongitude, startLatitude,endLongitude, endLatitude
       console.log("Data from fetch");
       console.log(data);
       var coords = data.matchings[0].geometry;
-      map.on('load',function(){
+      //map.on('load',function(){
         addRoute(coords);
-      });
+      //});
     });
 }
 
 function addRoute(coords) {
     // If a route is already loaded, remove it
-    console.log("add route");
+    console.log("ADD ROUTE ON TO MAP");
     if (map.getSource('route')) {
       map.removeLayer('route')
       map.removeSource('route')
-    } else { // Add a new layer to the map
+    } else { // Add a new layer to the map **/
       map.addLayer({
         "id": "route",
         "type": "line",
@@ -120,8 +133,8 @@ function addRoute(coords) {
         },
         "paint": {
           "line-color": "#03AA46",
-          "line-width": 8,
-          "line-opacity": 0.8
+          "line-width": 10,
+          "line-opacity": 1
         }
       });
     };

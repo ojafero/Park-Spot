@@ -33,7 +33,7 @@ class ParkingMeterRepository {
         var radiusLength = 1000;
         var meterStatusList = await this.fetchMeterStatus();
         var vacantMetersList = new Array();
-        while(!found && radiusLength<=5000){
+        while(!found && radiusLength<=12000){
             var meterList = await this.fetchMeters(latitude,longitude,radiusLength);
             /** 
             console.log("FetchVacantMeters");

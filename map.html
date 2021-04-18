@@ -23,12 +23,18 @@
             setupMap();
             fetchUserLocation();
             console.log("start fetching directions\n");
-            fetchDirections("-117.17282","32.71204","-117.17288","32.71225");
+            //fetchDirections("-117.17282","32.71204","-117.17288","32.71225");
         };
         
     </script>
+    <style>
+        #map {
+            height: 100vh;
+            width: 100vw;
+        }
+    </style>
 </head>
 <body>
-	  <div id="map" style="width: 400px; height: 300px;"></div>
+	  <div id="map"></div>
 </body>
 </html>
