@@ -20,7 +20,7 @@ class ParkingMeterRepository {
             url: "https://data.lacity.org/resource/e7h6-4a3e.json?occupancystate=VACANT",
             type: "GET",
             data: {
-            "$limit" : 30,
+            "$limit" : NumberOfMeters,
             "$$app_token" : MeterStatusKey
             }
         })

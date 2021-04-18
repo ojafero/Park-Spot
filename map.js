@@ -1,5 +1,6 @@
 var userCurrentLat = 0;
 var userCurrentLong = 0;
+var markersList = new Array();
 
 async function getMeterStatus(latitude, longitude) {
     var parkingMeterRepository = new ParkingMeterRepository();
@@ -7,7 +8,7 @@ async function getMeterStatus(latitude, longitude) {
     if(!vacantParkingMeterList || vacantParkingMeterList.length == 0) console.log("Unfortunately no meter spots are free at the moment.")
     else {
         console.log("Found a vacant spot-Finally")
-        console.log(vacantParkingMeterList);
+        addMarkers(vacantParkingMeterList);
     }  
 }
 
@@ -49,6 +50,15 @@ function fetchUserLocation(){
     if(navigator.geolocation) navigator.geolocation.getCurrentPosition(function(result){
         console.log(result);
     });
+}
+
+function addMarkers(vacantParkingMeterList){
+    for (var i=0; i<vacantParkingMeterList.length; i++){
+        var marker = new mapboxgl.Marker({
+            color: "#FFFFFF",
+            }).setLngLat([vacantParkingMeterList[i].latlng.longitude, vacantParkingMeterList[i].latlng.latitude])
+            .addTo(map);
+        }
 }
 
 
