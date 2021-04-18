@@ -1,3 +1,5 @@
+var userCurrentLat = 0;
+var userCurrentLong = 0;
 
 async function getMeterStatus(latitude, longitude) {
     var parkingMeterRepository = new ParkingMeterRepository();
@@ -41,6 +43,12 @@ function setupMap(){
     initializeMap();
     addSearchBar();
     addZoomToMap();
+}
+
+function fetchUserLocation(){
+    if(navigator.geolocation) navigator.geolocation.getCurrentPosition(function(result){
+        console.log(result);
+    });
 }
 
 
